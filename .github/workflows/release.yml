@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build x64
+        run: dotnet publish -c Release -r win-x64 -o publish/x64
+
+      - name: Build arm64
+        run: dotnet publish -c Release -r win-arm64 -o publish/arm64
+
+      - name: Prepare release artifacts
+        shell: pwsh
+        run: |
+          Copy-Item publish/x64/send-to-stata.exe send-to-stata-x64.exe
+          Copy-Item publish/arm64/send-to-stata.exe send-to-stata-arm64.exe
+          (Get-FileHash send-to-stata-x64.exe -Algorithm SHA256).Hash.ToLower() | Out-File -NoNewline send-to-stata-x64.exe.sha256
+          (Get-FileHash send-to-stata-arm64.exe -Algorithm SHA256).Hash.ToLower() | Out-File -NoNewline send-to-stata-arm64.exe.sha256
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            send-to-stata-x64.exe
+            send-to-stata-x64.exe.sha256
+            send-to-stata-arm64.exe
+            send-to-stata-arm64.exe.sha256
+          generate_release_notes: true

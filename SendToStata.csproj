@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Version>0.1.0</Version>
+    <PublishAot>true</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <Deterministic>true</Deterministic>
+    <AssemblyName>send-to-stata</AssemblyName>
+    <RootNamespace>SendToStata</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IlcOptimizationPreference>Size</IlcOptimizationPreference>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SendToStata.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SendToStata.Tests\**\*.cs" />
+    <None Remove="SendToStata.Tests\**\*" />
+    <EmbeddedResource Remove="SendToStata.Tests\**\*" />
+  </ItemGroup>
+
+</Project>
