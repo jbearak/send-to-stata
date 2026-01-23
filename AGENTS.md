@@ -31,5 +31,7 @@ CI builds x64 and arm64 binaries on tag push.
 
 ## Downstream Consumers
 
-- **zed-stata**: Stores binaries in repo root, monthly workflow updates them
-- **sight**: Downloads from GitHub Release, `exe-downloader.ts` has version/checksums
+Both download from GitHub Releases and maintain version/checksums:
+
+- **zed-stata**: Zed extension; repo includes a download script that installs the utility and configures Zed tasks and keyboard shortcuts
+- **sight**: VS Code extension that downloads the .exe as needed with user confirmation
